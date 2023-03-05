@@ -33,8 +33,14 @@ public class Zones {
         return zones.get(name);
     }
 
-    public void setLastCheckpoint(String playerName, int checkpointIndex) {
-        lastCheckpoints.put(playerName, checkpointIndex);
+    public void setLastCheckpoint(String playerName, int checkpointIndex, String zoneName) {
+        PlayerCheckpoint checkpoint = new PlayerCheckpoint(checkpointIndex, zoneName);
+        playerCheckpoints.put(playerName, checkpoint);
+    }
+
+
+    public boolean zoneExists(String name) {
+        return zones.containsKey(name);
     }
 
     public int getLastCheckpoint(String playerName) {

@@ -51,7 +51,6 @@ public class CheckPointListener implements Listener {
             }
 
             // Update the player's last checkpoint
-            zones.setLastCheckpoint(player.getName(), currentCheckpoint);
-        }
+            zones.setLastCheckpoint(player.getName(), currentCheckpoint, zones.getZone(player.getWorld().getName()).name());        }
     }
 }
