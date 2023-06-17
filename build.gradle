@@ -4,7 +4,7 @@ plugins {
 
 group = 'sarinsa'
 // MC, MAJOR, MINOR
-version = '2.2.1'
+version = '2.2.2'
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT"
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 }
 
