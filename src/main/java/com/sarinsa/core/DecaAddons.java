@@ -17,9 +17,7 @@ public class DecaAddons extends JavaPlugin {
     public static DecaAddons INSTANCE;
     public static FileConfiguration CONFIG;
     public static FileConfiguration PLAYER_PROPS;
-
     public static Economy economy;
-
     public static double guardianBaseCost;
     public static double guardianDonorCost;
 

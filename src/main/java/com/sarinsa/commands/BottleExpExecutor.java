@@ -2,6 +2,8 @@ package com.sarinsa.commands;
 
 import com.sarinsa.util.References;
 import com.sarinsa.util.Utility;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -9,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.ServerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -34,10 +35,11 @@ public class BottleExpExecutor implements CommandExecutor {
             return true;
         }
         if (player.getLevel() <= 0 && player.getExp() <= 0) {
-            player.sendMessage(ChatColor.RED + "You do not have any experience to bottle.");
+            Component message = Component.text("You do not have any experience to bottle.").color(NamedTextColor.RED);
+            player.sendMessage(message);
             return true;
         }
-        int exp = Utility.getExpFromLevels(player, false);
+        int exp = Utility.getExpFromLevels(player);
 
         if (exp < 0)
             return true;

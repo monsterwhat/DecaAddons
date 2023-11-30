@@ -2,6 +2,9 @@ package com.sarinsa.commands;
 
 import com.sarinsa.core.DecaAddons;
 import com.sarinsa.util.References;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +15,10 @@ import java.util.Map;
 
 public class DecaAddonsExecutor implements CommandExecutor {
 
-    private final String FANCY_1 = ChatColor.GRAY + "----------[" + ChatColor.AQUA + "" + ChatColor.ITALIC + "DecaAddons" + ChatColor.GRAY + "]----------";
-    private final String FANCY_2 = ChatColor.GRAY + "--------------------------------";
+    private final Component FANCY_1 = Component.text("----------[").color(NamedTextColor.GRAY)
+            .append(Component.text("DecaAddons").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, true))
+            .append(Component.text("]----------").color(NamedTextColor.GRAY));
+    private final Component FANCY_2 = Component.text("--------------------------------").color(NamedTextColor.GRAY);
 
     @SuppressWarnings("deprecation")
     @Override

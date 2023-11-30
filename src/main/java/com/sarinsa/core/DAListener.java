@@ -100,7 +100,7 @@ public class DAListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (dataContainer.has(NamespacedKey.minecraft("exp_bottle_value"), PersistentDataType.INTEGER)) {
                 int storedExp = dataContainer.getOrDefault(NamespacedKey.minecraft("exp_bottle_value"), PersistentDataType.INTEGER, 0);
-                int currentExp = Utility.getExpFromLevels(event.getPlayer(), false);
+                int currentExp = Utility.getExpFromLevels(event.getPlayer());
 
                 Player player = event.getPlayer();
 

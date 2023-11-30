@@ -1,6 +1,7 @@
 package com.sarinsa.util;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class References {
 
@@ -8,15 +9,15 @@ public class References {
     public static final String DONOR_PERM = "decaaddons.guardians.donor";
 
 
-
     // MESSAGES
     public static String PLAYER_ONLY = "This command can only be issued by a player!";
-    public static String TOO_MANY_ARGS  = ChatColor.RED + "Too many arguments!";
+    public static Component TOO_MANY_ARGS  = Component.text("Too many arguments!").color(NamedTextColor.RED);
 
-    public static final String[] GUARDIAN_HELP = {
-            ChatColor.GREEN + "/guardians " + ChatColor.AQUA + "- See how many guardians you have left.",
-            ChatColor.GREEN + "/guardians help " + ChatColor.AQUA + "- Displays this message.",
-            ChatColor.GREEN + "/guardians buy [amount]|max " + ChatColor.AQUA + "- Purchase one or more guardians.",
-            ChatColor.GREEN + "/guardians toggle " + ChatColor.AQUA + "- Toggles guardians on or off.",
-    };
+
+    public static Component GUARDIAN_HELP() {
+        return Component.text("Guardians Help").color(NamedTextColor.AQUA).append(Component.text(":")).color(NamedTextColor.GRAY)
+                .append(Component.text("Use ").append(Component.text("/guardians", NamedTextColor.GREEN)).append(Component.text(" to see how many guardians you have left.")).color(NamedTextColor.GRAY))
+                .append(Component.text("Use ").append(Component.text("/guardians buy [amount]|max", NamedTextColor.GREEN)).append(Component.text(" to purchase one or more guardians.")).color(NamedTextColor.GRAY))
+                .append(Component.text("Use ").append(Component.text("/guardians toggle", NamedTextColor.GREEN)).append(Component.text(" to toggle guardians on or off.")).color(NamedTextColor.GRAY));
+    }
 }

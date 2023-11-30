@@ -4,7 +4,9 @@ import com.sarinsa.core.DecaAddons;
 
 import java.util.Objects;
 import java.util.logging.Level;
-import org.bukkit.ChatColor;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -19,7 +21,8 @@ public class Utility {
             return Objects.requireNonNull(DecaAddons.PLAYER_PROPS.getConfigurationSection(player.getUniqueId().toString())).getBoolean("isGuardianActive");
         }
         catch (Exception e) {
-            player.sendMessage(ChatColor.RED + "An error occurred while trying to fetch your active guardian entry.");
+            Component error = Component.text("An error occurred while trying to fetch your active guardian entry.").color(NamedTextColor.RED);
+            player.sendMessage(error);
             DecaAddons.INSTANCE.getLogger().log(Level.SEVERE, "Failed to retrieve guardian active for player {0}", player.getName());
             return false;
         }
@@ -33,7 +36,8 @@ public class Utility {
             Objects.requireNonNull(DecaAddons.PLAYER_PROPS.getConfigurationSection(player.getUniqueId().toString())).set("isGuardianActive", active);
         }
         catch (Exception e) {
-            player.sendMessage(ChatColor.RED + "An error occurred while trying to fetch your active guardian entry.");
+            Component error = Component.text("An error occurred while trying to fetch your active guardian entry.").color(NamedTextColor.RED);
+            player.sendMessage(error);
             DecaAddons.INSTANCE.getLogger().log(Level.SEVERE, "Failed to toggle guardian active for player {0}", player.getName());
         }
     }
@@ -42,12 +46,10 @@ public class Utility {
      * Converts experience levels to experience points.
      * The math used here is based off of the information provided
      * on the wiki.<p></p>
-     * <strong>https://minecraft.fandom.com/wiki/Experience</strong>
+     * <strong><a href="https://minecraft.fandom.com/wiki/Experience">...</a></strong>
      * <p></p>
-     * @param includeProgress If true, the given player's current progress to the next
-     *                        experience level will also be converted into experience points.
      */
-    public static int getExpFromLevels(Player player, boolean includeProgress) {
+    public static int getExpFromLevels(Player player) {
         int levels = player.getLevel();
 
         if (levels < 0) {
@@ -68,7 +70,7 @@ public class Utility {
      * Converts experience points into experience levels.
      * The math used here is based off of the information
      * provide on the wiki.<p></p>
-     * <strong>https://minecraft.fandom.com/wiki/Experience</strong>
+     * <strong><a href="https://minecraft.fandom.com/wiki/Experience">...</a></strong>
      */
     public static int getLevelsFromExp(int experience) {
         if (experience <= 352) {

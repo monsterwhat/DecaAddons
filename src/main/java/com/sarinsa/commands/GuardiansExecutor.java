@@ -3,7 +3,9 @@ package com.sarinsa.commands;
 import com.sarinsa.core.DecaAddons;
 import com.sarinsa.util.References;
 import com.sarinsa.util.Utility;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,15 +20,19 @@ public class GuardiansExecutor implements CommandExecutor {
         Player player = (Player) sender;
         int guardians = Objects.requireNonNull(DecaAddons.PLAYER_PROPS.getConfigurationSection(player.getUniqueId().toString())).getInt("guardians");
 
-        String status = ChatColor.RED + "OFF";
+        Component status = Component.text("OFF").color(NamedTextColor.RED);
 
         if (Utility.isGuardianActive(player)) {
-            status = ChatColor.GREEN + "ON";
+            status = Component.text("ON").color(NamedTextColor.GREEN);
         }
         if (args.length < 1) {
-            player.sendMessage(ChatColor.AQUA + "You currently have " + ChatColor.GREEN + guardians + ChatColor.AQUA + " Guardians. " + ChatColor.GRAY + "(" + ChatColor.YELLOW + "Guardians are " + status + ChatColor.GRAY + ")");
-            player.sendMessage(ChatColor.GRAY + "Pssst. Check out the list of guardian related commands with");
-            player.sendMessage(ChatColor.AQUA + "/guardians help");
+            Component guardiansMessage = Component.text("You currently have ").color(NamedTextColor.AQUA)
+                    .append(Component.text(guardians).color(NamedTextColor.GREEN))
+                    .append(Component.text(" Guardians. ").color(NamedTextColor.AQUA))
+                    .append(Component.text("(Guardians are ").color(NamedTextColor.GRAY))
+                    .append(status)
+                    .append(Component.text(")").color(NamedTextColor.GRAY));
+            player.sendMessage(guardiansMessage);
         }
         else {
             if (args[0].equalsIgnoreCase("buy")) {
@@ -42,10 +48,15 @@ public class GuardiansExecutor implements CommandExecutor {
                         Objects.requireNonNull(DecaAddons.PLAYER_PROPS.getConfigurationSection(player.getUniqueId().toString())).set("guardians", ++guardians);
                         DecaAddons.INSTANCE.saveConfiguration("playerProps.yml", DecaAddons.PLAYER_PROPS);
 
-                        player.sendMessage(ChatColor.GREEN + "You purchased a Guardian.");
+                        Component guardiansMessage = Component.text("You purchased a Guardian.").color(NamedTextColor.GREEN);
+                        player.sendMessage(guardiansMessage);
                     }
                     else {
-                        player.sendMessage(ChatColor.RED + "You don't have sufficient funds " + ChatColor.BLUE + "(" + ChatColor.AQUA + DecaAddons.economy.format(cost) + ChatColor.BLUE + ")");
+                        Component guardiansMessage = Component.text("You don't have sufficient funds ").color(NamedTextColor.RED)
+                                .append(Component.text("(").color(NamedTextColor.BLUE))
+                                .append(Component.text(DecaAddons.economy.format(cost)).color(NamedTextColor.AQUA))
+                                .append(Component.text(")").color(NamedTextColor.BLUE));
+                        player.sendMessage(guardiansMessage);
                     }
                     return true;
                 }
@@ -58,12 +69,16 @@ public class GuardiansExecutor implements CommandExecutor {
                         amount = Integer.parseInt(args[1]);
                     }
                     catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        player.sendMessage(ChatColor.RED + "\"" + args[1] + "\" is not a valid number.");
+                        Bukkit.getLogger().warning("GuardiansExecutor: NumberFormatException: " + e.getMessage());
+                        Component guardiansMessage = Component.text("\"").color(NamedTextColor.RED)
+                                .append(Component.text(args[1]).color(NamedTextColor.AQUA))
+                                .append(Component.text("\" is not a valid number.").color(NamedTextColor.RED));
+                        player.sendMessage(guardiansMessage);
                         return true;
                     }
                     if (amount <= 0) {
-                        player.sendMessage(ChatColor.RED + "Amount must be a positive number!");
+                        Component guardiansMessage = Component.text("Amount must be a positive number!").color(NamedTextColor.RED);
+                        player.sendMessage(guardiansMessage);
                         return true;
                     }
                     cost *= amount;
@@ -73,10 +88,17 @@ public class GuardiansExecutor implements CommandExecutor {
                         Objects.requireNonNull(DecaAddons.PLAYER_PROPS.getConfigurationSection(player.getUniqueId().toString())).set("guardians", guardians + amount);
                         DecaAddons.INSTANCE.saveConfiguration("playerProps.yml", DecaAddons.PLAYER_PROPS);
 
-                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.AQUA + amount + ChatColor.GREEN + " guardians");
+                        Component guardiansMessage = Component.text("You purchased ").color(NamedTextColor.GREEN)
+                                .append(Component.text(amount).color(NamedTextColor.AQUA))
+                                .append(Component.text(" guardians.").color(NamedTextColor.GREEN));
+                        player.sendMessage(guardiansMessage);
                     }
                     else {
-                        player.sendMessage(ChatColor.RED + "You don't have sufficient funds " + ChatColor.BLUE + "(" + ChatColor.AQUA + DecaAddons.economy.format(cost) + ChatColor.BLUE + ")");
+                        Component guardiansMessage = Component.text("You don't have sufficient funds ").color(NamedTextColor.RED)
+                                .append(Component.text("(").color(NamedTextColor.BLUE))
+                                .append(Component.text(DecaAddons.economy.format(cost)).color(NamedTextColor.AQUA))
+                                .append(Component.text(")").color(NamedTextColor.BLUE));
+                        player.sendMessage(guardiansMessage);
                     }
                     return true;
                 }
@@ -86,24 +108,38 @@ public class GuardiansExecutor implements CommandExecutor {
                 }
             }
             else if (args[0].equalsIgnoreCase("help")) {
-                player.sendMessage(ChatColor.GRAY + "--------------------------------------------");
-                player.sendMessage(References.GUARDIAN_HELP);
-                player.sendMessage(ChatColor.GRAY + "--------------------------------------------");
+                Component guardiansMessage = Component.text("You currently have ").color(NamedTextColor.AQUA)
+                        .append(Component.text(guardians).color(NamedTextColor.GREEN))
+                        .append(Component.text(" Guardians. ").color(NamedTextColor.AQUA))
+                        .append(Component.text("(Guardians are ").color(NamedTextColor.GRAY))
+                        .append(status)
+                        .append(Component.text(")").color(NamedTextColor.GRAY));
+                player.sendMessage(guardiansMessage);
             }
             else if (args[0].equalsIgnoreCase("toggle")) {
 
                 if (Utility.isGuardianActive(player)) {
                     Utility.setGuardianActive(player, false);
-                    player.sendMessage(ChatColor.YELLOW + "Toggled Guardians " + ChatColor.RED + "" + ChatColor.BOLD + "OFF");
+                    Component guardiansMessage = Component.text("Toggled Guardians ").color(NamedTextColor.YELLOW)
+                            .append(Component.text("OFF").color(NamedTextColor.RED));
+                    player.sendMessage(guardiansMessage);
                 }
                 else {
                     Utility.setGuardianActive(player, true);
-                    player.sendMessage(ChatColor.YELLOW + "Toggled Guardians " + ChatColor.GREEN + "" + ChatColor.BOLD + "ON");
+                    Component guardiansMessage = Component.text("Toggled Guardians ").color(NamedTextColor.YELLOW)
+                            .append(Component.text("ON").color(NamedTextColor.GREEN));
+                    player.sendMessage(guardiansMessage);
                 }
                 return true;
             }
             else {
-                player.sendMessage(ChatColor.RED + "Invalid subcommand. Type /guardians help for a list of commands");
+                Component guardiansMessage = Component.text("You currently have ").color(NamedTextColor.AQUA)
+                        .append(Component.text(guardians).color(NamedTextColor.GREEN))
+                        .append(Component.text(" Guardians. ").color(NamedTextColor.AQUA))
+                        .append(Component.text("(Guardians are ").color(NamedTextColor.GRAY))
+                        .append(status)
+                        .append(Component.text(")").color(NamedTextColor.GRAY));
+                player.sendMessage(guardiansMessage);
                 return true;
             }
         }
