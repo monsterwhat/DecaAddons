@@ -1,7 +1,7 @@
 name: DecaAddons
-version: 3.0.0
+version: 3.0.1
 description: "Some nifty features for PlayDeca"
-api-version: 1.20
+api-version: 1.21
 author: Sarinsa, MonsterWhat
 noteable credits: Random6894
 main: com.sarinsa.core.DecaAddons
