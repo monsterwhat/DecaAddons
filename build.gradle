@@ -4,7 +4,7 @@ plugins {
 
 group = 'sarinsa'
 // MC, MAJOR, MINOR
-version = '3.0.1'
+version = '3.0.2'
 
 repositories {
     mavenCentral()
@@ -31,8 +31,21 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT"
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    compileOnly "io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT"
+    compileOnly('com.github.MilkBowl:VaultAPI:1.7') {
+    exclude group: 'org.bukkit', module: 'bukkit'
+    } 
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT'
+        eachDependency { details ->
+            if (details.requested.group == 'org.bukkit') {
+                details.useTarget 'io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT'
+            }
+        }
+    }
 }
 
 def targetJavaVersion = 21
